@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Consulta CEP</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #ff5252;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            margin-top: 50px;
+        }
+
+        #formCEP {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin-top: 30px;
+        }
+
+        label {
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        #cepInput {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        input[type="button"] {
+            background-color: #ff5252;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="button"]:hover {
+            background-color: #cc0000;
+        }
+
+        #resultadoCEP {
+            background-color: #222;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 30px;
+            white-space: pre-wrap;
+            font-size: 16px;
+            overflow: auto;
+            max-height: 300px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Consulta CEP</h1>
+    <form id="formCEP">
+        <label for="cepInput">Digite o CEP:</label>
+        <input type="text" id="cepInput" placeholder="Ex: 12345-678">
+        <input type="button" value="Consultar" onclick="consultarCEP()">
+    </form>
+    <pre id="resultadoCEP"></pre>
+
+    <script>
+        function consultarCEP() {
+            const cep = document.getElementById('cepInput').value;
+            fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('resultadoCEP').innerText = JSON.stringify(data, null, 2);
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                    document.getElementById('resultadoCEP').innerText = 'Erro ao consultar o CEP';
+                });
+        }
+    </script>
+</body>
+
+</html>
